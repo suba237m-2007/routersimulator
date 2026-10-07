@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Router Simulator</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header>
+
+        <h1>🔀 Router Simulator</h1>
+
+        <p>
+            Interactive Computer Networks Application
+        </p>
+
+    </header>
+
+
+    <div class="container">
+
+
+        <!-- 1. ROUTER TABLE -->
+
+        <div class="routing-card">
+
+            <h2>📋 Router 1 Routing Table</h2>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Destination Network</th>
+                        <th>Subnet Mask</th>
+                        <th>Gateway</th>
+                        <th>Interface</th>
+                        <th>Metric</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>192.168.1.0</td>
+                        <td>255.255.255.0</td>
+                        <td>Direct</td>
+                        <td>eth0</td>
+                        <td>0</td>
+                    </tr>
+
+                    <tr>
+                        <td>192.168.2.0</td>
+                        <td>255.255.255.0</td>
+                        <td>192.168.1.2</td>
+                        <td>eth1</td>
+                        <td>1</td>
+                    </tr>
+
+                    <tr>
+                        <td>192.168.3.0</td>
+                        <td>255.255.255.0</td>
+                        <td>192.168.2.2</td>
+                        <td>eth2</td>
+                        <td>2</td>
+                    </tr>
+
+                    <tr>
+                        <td>0.0.0.0</td>
+                        <td>0.0.0.0</td>
+                        <td>192.168.1.254</td>
+                        <td>eth0</td>
+                        <td>10</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- 2. SEND NETWORK PACKET -->
+
+        <div class="control-card">
+
+            <h2>📦 Send Network Packet</h2>
+
+            <label>
+                Source IP Address
+            </label>
+
+            <input
+                type="text"
+                id="sourceIP"
+                value="192.168.1.10"
+            >
+
+
+            <label>
+                Destination IP Address
+            </label>
+
+            <input
+                type="text"
+                id="destinationIP"
+                value="192.168.3.10"
+            >
+
+
+            <label>
+                Select Protocol
+            </label>
+
+            <select id="protocolSelect">
+
+                <option value="TCP">
+                    TCP
+                </option>
+
+                <option value="UDP">
+                    UDP
+                </option>
+
+                <option value="ICMP">
+                    ICMP
+                </option>
+
+            </select>
+
+
+            <button onclick="sendPacket()">
+                🚀 Send Packet
+            </button>
+
+
+            <button
+                class="clear-btn"
+                onclick="resetSimulation()">
+
+                🧹 Reset
+
+            </button>
+
+        </div>
+
+
+        <!-- 3. NETWORK PATH -->
+
+        <div class="network-card">
+
+            <h2>🌐 Network Path</h2>
+
+            <div class="network">
+
+
+                <!-- SOURCE PC -->
+
+                <div
+                    class="device"
+                    id="source">
+
+                    <div class="icon">
+                        🖥️
+                    </div>
+
+                    <h3>
+                        Source PC
+                    </h3>
+
+                    <p id="sourceDisplay">
+                        192.168.1.10
+                    </p>
+
+                </div>
+
+
+                <div class="line">
+                    →
+                </div>
+
+
+                <!-- ROUTER 1 -->
+
+                <div
+                    class="device router"
+                    id="router1">
+
+                    <div class="icon">
+                        🔀
+                    </div>
+
+                    <h3>
+                        Router 1
+                    </h3>
+
+                    <p>
+                        192.168.1.1
+                    </p>
+
+                </div>
+
+
+                <div class="line">
+                    →
+                </div>
+
+
+                <!-- ROUTER 2 -->
+
+                <div
+                    class="device router"
+                    id="router2">
+
+                    <div class="icon">
+                        🔀
+                    </div>
+
+                    <h3>
+                        Router 2
+                    </h3>
+
+                    <p>
+                        192.168.2.1
+                    </p>
+
+                </div>
+
+
+                <div class="line">
+                    →
+                </div>
+
+
+                <!-- DESTINATION -->
+
+                <div
+                    class="device server"
+                    id="destination">
+
+                    <div class="icon">
+                        🖥️
+                    </div>
+
+                    <h3>
+                        Destination
+                    </h3>
+
+                    <p id="destinationDisplay">
+                        192.168.3.10
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- PACKET -->
+
+            <div id="packet">
+                📦
+            </div>
+
+        </div>
+
+
+        <!-- 4. PACKET INFORMATION -->
+
+        <div class="status-card">
+
+            <h2>📊 Packet Information</h2>
+
+            <div class="status-grid">
+
+                <div>
+
+                    <span>
+                        Source IP
+                    </span>
+
+                    <strong id="statusSource">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Destination IP
+                    </span>
+
+                    <strong id="statusDestination">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Protocol
+                    </span>
+
+                    <strong id="protocol">
+                        TCP
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Hop Count
+                    </span>
+
+                    <strong id="hopCount">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Route
+                    </span>
+
+                    <strong id="route">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Status
+                    </span>
+
+                    <strong id="packetStatus">
+                        Waiting...
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- 5. ROUTING DECISION -->
+
+        <div class="routing-decision-card">
+
+            <h2>🧭 Routing Decision</h2>
+
+            <div class="decision-grid">
+
+                <div>
+
+                    <span>
+                        Destination IP
+                    </span>
+
+                    <strong id="decisionIP">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Matched Network
+                    </span>
+
+                    <strong id="matchedNetwork">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Next Hop
+                    </span>
+
+                    <strong id="nextHop">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Interface
+                    </span>
+
+                    <strong id="interfaceName">
+                        -
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div id="decisionResult">
+
+                Waiting for packet...
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <p>
+            🔀 Router Simulator |
+            Computer Networks Project
+        </p>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
